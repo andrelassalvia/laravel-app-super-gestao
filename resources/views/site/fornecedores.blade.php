@@ -1,4 +1,4 @@
-<h3>Contato (view)</h3>
+<h3>Fornecedores (view)</h3>
 
 <ul>
     <li><a href="{{ route('site.index')}}"> Principal</a></li>

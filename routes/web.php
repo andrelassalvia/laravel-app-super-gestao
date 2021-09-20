@@ -18,15 +18,30 @@ Route::get('/', function () {
 });
 */
 
-route::get('/','PrincipalController@principal');
+route::get('/','PrincipalController@principal')->name('site.index');
+Route::get('/sobre-nos', 'SobrenosController@sobreNos')->name('site.sobrenos');
+Route::get('/contato', 'ContatoController@contato')->name('site.contato');
+route::get('/login', 'LoginController@login')->name('site.login');
 
-Route::get('/sobre-nos', 'SobrenosController@sobreNos');
-Route::get('/contato', 'ContatoController@contato');
-
-// vamos colocar os seguintes parametros do contato:
-// nome, categoria, assunto e memsagem
-route::get('/contato/{nome}/{categoria}/{assunto}/{mensagem?}', function(string $nome, string $categoria, string $assunto, string $mensagem = 'nao definida'){
-    echo    'Estamos aqui'.' '. $nome.'! Vamos falar dos'. ' '.$categoria.' '.'pois o assunto hoje esta'.' '.$assunto.' '.'com a mensagem'. ' '.$mensagem;
-    echo '<br>';
-    echo "EStamos aqui com $nome falando da categoria $categoria sobre o assunto $assunto com a mensagem $mensagem.";
+route::prefix('/app')->group(function(){
+    route::get('/clientes', 'ClientesController@clientes')->name('app.clientes');
+    route::get('/fornecedores', 'FornecedoresController@fornecedores')->name('app.fornecedores');
+    route::get('/produtos', 'ProdutosController@produtos')->name('app.produtos');
 });
+
+route::get('/rota1',function(){
+    echo 'rota1';
+
+})->name('site.rota1');
+
+
+route::get('/rota2', function(){
+    return redirect()->route('site.rota1');
+})->name('site.rota2');
+
+// Route::redirect('/rota2','/rota1');
+
+route::fallback(function(){
+    echo 'A pagina acessada nao existe. <a href="'.route('site.index').'">Clique aqui</a> para voltar a pagina inicial';
+});
+
