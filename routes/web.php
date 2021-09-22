@@ -25,19 +25,21 @@ route::get('/login', 'LoginController@login')->name('site.login');
 
 route::prefix('/app')->group(function(){
     route::get('/clientes', 'ClientesController@clientes')->name('app.clientes');
-    route::get('/fornecedores', 'FornecedoresController@fornecedores')->name('app.fornecedores');
+    route::get('/fornecedor', 'FornecedorController@index')->name('app.fornecedor');
     route::get('/produtos', 'ProdutosController@produtos')->name('app.produtos');
 });
 
-route::get('/rota1',function(){
-    echo 'rota1';
+route::get('/teste/{p1}/{p2}', 'TesteController@teste')->name('teste');
 
-})->name('site.rota1');
+// route::get('/rota1',function(){
+//     echo 'rota1';
+
+// })->name('site.rota1');
 
 
-route::get('/rota2', function(){
-    return redirect()->route('site.rota1');
-})->name('site.rota2');
+// route::get('/rota2', function(){
+//     return redirect()->route('site.rota1');
+// })->name('site.rota2');
 
 // Route::redirect('/rota2','/rota1');
 
