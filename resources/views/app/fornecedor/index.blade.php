@@ -225,7 +225,7 @@ NESTAS SITUACAO O empty RETORNA TRUE --}}
 {{-- ============================================================ --}}
 {{-- WHILE NO BLADE --}}
 
-@isset($fornecedores)
+{{-- @isset($fornecedores)
 
     @php $i = 0 @endphp
     @while(isset($fornecedores[$i]))
@@ -258,5 +258,176 @@ NESTAS SITUACAO O empty RETORNA TRUE --}}
         <hr>
         <br>
     @endwhile
-@endisset
+@endisset --}}
 
+
+{{-- ============================================================ --}}
+{{-- FOREACH NO BLADE --}}
+
+{{-- @isset($fornecedores)
+
+    @foreach ($fornecedores as $indice => $fornecedor )
+        
+        Fornecedor: {{$fornecedor['nome'] ?? 'Não existe este fornecedor'}}
+        <br>
+        Status: {{$fornecedor['status'] ?? 'Status não identificado'}}
+        <br>
+        CNPJ: {{$fornecedor['cnpj'] ?? 'não informado'}}
+        <br>
+        DDD: {{$fornecedor['DDD'] ?? 'DDD não informado'}}
+        Telefone: {{$fornecedor['telefone'] ?? 'não informado'}}
+
+        @switch($fornecedor['DDD'])
+
+            @case('11')
+                São Paulo - SP
+                @break
+            @case('85')
+                Fortaleza - CE
+                @break
+            @case('32')
+                Juiz de Fora - MG
+                @break
+            @default
+                @break
+
+        @endswitch
+        <hr>
+    @endforeach
+
+@endisset --}}
+
+{{-- ============================================================ --}}
+{{-- FORELSE NO BLADE --}}
+{{-- ForElse nao existe no PHP nativo --}}
+{{-- Funciona como uma combinacao entre um FOREACH e um bloco condicional para verificar se o array esta ou nao vazio --}}
+{{-- Se houver itens a ser percorridos no array, entao o bloco de repeticao sera executado. Caso contrario o fluxo é desviado --}}
+
+{{-- @isset($fornecedores)
+
+    @forelse($fornecedores as $indice => $fornecedor)
+        Fornecedor: {{$fornecedor['nome'] ?? 'não informado'}}
+        <br>
+        Status: {{$fornecedor['status'] ?? 'não informado'}}
+        <br>
+        CNPJ: {{$fornecedor['cnpj'] ?? ' não informado'}}
+        <br>
+        DDD: {{$fornecedor['DDD'] ?? 'não informado'}}
+        Telefone: {{$fornecedor['telefone'] ?? 'não informado'}}
+
+        @switch($fornecedor['DDD'])
+            @case('11')
+                Sao Paulo - SP
+                @break
+            @case('85')
+                Fortaleza - CE
+                @break
+            @case('32')
+                Juiz de Fora - MG
+                @break
+            @default
+
+                @break
+        @endswitch
+        <hr> --}}
+
+    {{-- @empty Caso nao haja valores no array o fluxo sera desviado para ca --}}
+        {{-- Nenhum fornecedor cadastrado!!!
+    @endforelse
+
+@endisset --}}
+
+
+{{-- ============================================================ --}}
+{{-- ESCAPANDO À SINTAXE DE IMPRESSÃO NO BLADE --}}
+{{-- Pode ser que precisemos utilizar chaves duplas -> {{}} mas nao para imprimir strings ou variaveis --}}
+{{-- Quando colocamos @ antes das chaves duplas o que vem escrito a seguir é interpretado como string  --}}
+
+{{-- @isset($fornecedores)
+
+    @forelse($fornecedores as $indice => $fornecedor)
+        Fornecedor: @{{$fornecedor['nome'] ?? 'não informado'}}
+        <br>
+        Status: @{{$fornecedor['status'] ?? 'não informado'}}
+        <br>
+        CNPJ: @{{$fornecedor['cnpj'] ?? ' não informado'}}
+        <br>
+        DDD: @{{$fornecedor['DDD'] ?? 'não informado'}}
+        Telefone: @{{$fornecedor['telefone'] ?? 'não informado'}}
+
+        @switch($fornecedor['DDD'])
+            @case('11')
+                Sao Paulo - SP
+                @break
+            @case('85')
+                Fortaleza - CE
+                @break
+            @case('32')
+                Juiz de Fora - MG
+                @break
+            @default
+
+                @break
+        @endswitch
+        <hr> 
+
+    @empty 
+        Nenhum fornecedor cadastrado!!!
+    @endforelse
+
+@endisset --}}
+
+{{-- ============================================================ --}}
+{{--  VARIAVEL LOOP --}}
+{{-- Loop é um objeto criado automaticamente pelo BLADE quando estamos trabalhando com os laços FOREACH e FORELSE --}}
+{{-- O Loop fornece informações sobre o que está acontecendo no laço --}}
+
+@isset($fornecedores)
+
+    @forelse($fornecedores as $indice => $fornecedor)
+
+        @dd($loop) {{--Para enxergarmos todos os atributos do objeto LOOP--}}
+        Iteração Atual {{$loop->iteration}} {{--Fornece a informação de qual iteração está sendo executada no momento--}}
+        <br>
+        Fornecedor: {{$fornecedor['nome'] ?? 'não informado'}}
+        <br>
+        Status: {{$fornecedor['status'] ?? 'não informado'}}
+        <br>
+        CNPJ: {{$fornecedor['cnpj'] ?? ' não informado'}}
+        <br>
+        DDD: {{$fornecedor['DDD'] ?? 'não informado'}}
+        Telefone: {{$fornecedor['telefone'] ?? 'não informado'}}
+
+        @switch($fornecedor['DDD'])
+            @case('11')
+                Sao Paulo - SP
+                @break
+            @case('85')
+                Fortaleza - CE
+                @break
+            @case('32')
+                Juiz de Fora - MG
+                @break
+            @default
+
+                @break
+        @endswitch
+        <br>
+        @if($loop->first)
+            Primeira iteração do LOOP.
+        @endif
+        @if($loop->last)
+            Ultima iteração do LOOP.
+            <br>
+            <br>
+            Total de Registros: {{$loop->count}}
+        @endif
+        <br>
+        
+        <hr> 
+    @empty 
+        Nenhum fornecedor cadastrado!!!
+    @endforelse
+    
+
+@endisset
