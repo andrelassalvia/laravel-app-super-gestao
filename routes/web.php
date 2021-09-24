@@ -21,12 +21,13 @@ Route::get('/', function () {
 route::get('/','PrincipalController@principal')->name('site.index');
 Route::get('/sobre-nos', 'SobrenosController@sobreNos')->name('site.sobrenos');
 Route::get('/contato', 'ContatoController@contato')->name('site.contato');
-route::get('/login', 'LoginController@login')->name('site.login');
+Route::post('/contato', 'ContatoController@contato')->name('site.contato');
+route::get('/login', function(){return 'login';})->name('site.login');
 
 route::prefix('/app')->group(function(){
-    route::get('/clientes', 'ClientesController@clientes')->name('app.clientes');
+    route::get('/clientes', function(){return 'clientes';})->name('app.clientes');
     route::get('/fornecedor', 'FornecedorController@index')->name('app.fornecedor');
-    route::get('/produtos', 'ProdutosController@produtos')->name('app.produtos');
+    route::get('/produtos', function(){return 'produtos';})->name('app.produtos');
 });
 
 route::get('/teste/{p1}/{p2}', 'TesteController@teste')->name('teste');
