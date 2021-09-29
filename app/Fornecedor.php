@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 // quando criamos o modelo criamos no singular - Fornecedor
 // quando criamos a tabela o fazemos no plural - Fornecedores
@@ -18,7 +19,10 @@ use Illuminate\Database\Eloquent\Model;
 
 
 class Fornecedor extends Model
-{
+
+{   
+    // permitir usar o softDeletes -> nao esquecer de acrescentar no namespace
+    use SoftDeletes;
     // acertando o plural de Fornecedor
     protected $table = 'fornecedores';
 
