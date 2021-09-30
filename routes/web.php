@@ -21,7 +21,7 @@ Route::get('/', function () {
 route::get('/','PrincipalController@principal')->name('site.index');
 Route::get('/sobre-nos', 'SobrenosController@sobreNos')->name('site.sobrenos');
 Route::get('/contato', 'ContatoController@contato')->name('site.contato');
-Route::post('/contato', 'ContatoController@contato')->name('site.contato');
+Route::post('/contato', 'ContatoController@salvar')->name('site.contato');
 route::get('/login', function(){return 'login';})->name('site.login');
 
 route::prefix('/app')->group(function(){
