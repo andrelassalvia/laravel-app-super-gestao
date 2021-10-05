@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterFornecedoresColumnSoftDeletes extends Migration
+
+class CreateMotivoContatosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +14,11 @@ class AlterFornecedoresColumnSoftDeletes extends Migration
      */
     public function up()
     {
-        // Incluir a softDeletes
-        Schema::table('fornecedores', function(Blueprint $table){
-            $table->softDeletes()->after('email');
+        Schema::create('motivo_contatos', function (Blueprint $table) {
+            $table->id();
+            $table->string('motivo_contato',30);
+            $table->timestamps();
         });
-
     }
 
     /**
@@ -27,9 +28,6 @@ class AlterFornecedoresColumnSoftDeletes extends Migration
      */
     public function down()
     {
-        //Retira a coluna SoftDeletes
-        Schema::table('Fornecedores', function(Blueprint $table){
-            $table->dropSoftDeletes();
-        });
+        Schema::dropIfExists('motivo_contatos');
     }
 }

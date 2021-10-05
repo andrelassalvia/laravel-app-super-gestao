@@ -4,16 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\SiteContato; // incluir o Model do SiteContato
+use App\MotivoContatos;
 
 class ContatoController extends Controller
 {
-    public function contato(Request $request){
+    public function contato(){
 
-        $motivo_contatos = [
-            '1'=> 'Dúvida',
-            '2'=> 'Elogio',
-            '3'=> 'Reclamação'
-        ];
+        $motivo_contatos = MotivoContatos::all();
+        
         
         /*
         $contato = new SiteContato(); // instancia a classe SiteContato e depois preenche os atributos deste objeto
@@ -56,19 +54,23 @@ class ContatoController extends Controller
     public function salvar(Request $request){
         // dd($request);
 
+        $motivo_contatos = MotivoContatos::all();
+
         // realizar a validacao dos dados recebidos no request
         $request->validate([
-            'nome' => 'required|min:3|max:40',  // validar nome como obrigatorio e com um minimo de 3 caracteres e no maximo 40
+            'nome' => 'required|min:3|max:40|unique:site_contatos',  // validar nome como obrigatorio e com um minimo de 3 caracteres e no maximo 40
             'telefone' => 'required',
-            'email' => 'required',
-            'motivo_contato' => 'required',
+            'email' => 'email',
+            'motivo_contatos_id' => 'required',
             'mensagem' => 'required|max:2000'
             
         ]);
 
         SiteContato::create($request->all());
-
+        return redirect()->route('site.index');
+        
     }
+   
 }
 
 // A escolha de qual forma iremos passar as informacoes depende se precisamos ou nao tratar alguma informacao especifica. Por vezes precisamos checar alguma formatacao antes de enviar o formulario, dai utilizamos a primeira forma.

@@ -8,13 +8,11 @@
     <br>
     <input name="email" value="{{old('email')}}" type="text" placeholder="E-mail" class="{{$classe}}">
     <br>
-    <select name="motivo_contato"  class="{{$classe}}"> <!-- No caso do SELECT o old() é tratado de forma diferente -->
+    <select name="motivo_contatos_id"  class="{{$classe}}"> <!-- No caso do SELECT o old() é tratado de forma diferente -->
         <option value="">Qual o motivo do contato?</option>
         @foreach ($motivo_contatos as $key => $motivo_contato)
-        <option value="{{$key}}" {{old('motivo_contato') == $key ? 'selected' : ''}}>{{$motivo_contato}}
-        
-            
-        </option>
+            <option value="{{$motivo_contato->id}}" {{old('motivo_contatos_id') == $motivo_contato->id ? 'selected' : ''}}>{{$motivo_contato->motivo_contato}}
+            </option>
         @endforeach
         {{-- <option value="2" {{old('motivo_contato') == 2 ? 'selected' : ''}}>Elogio</option>
         <option value="3" {{old('motivo_contato') == 3 ? 'selected' : ''}}>Reclamação</option> --}}
@@ -24,3 +22,15 @@
     <br>
     <button type="submit" class="{{$classe}}">ENVIAR</button>
 </form>
+
+@if($errors->any())
+    <div style="position:absolute; top:0px; left:0px; width:100%; background-color:blue; color:white">
+        @foreach ($errors->all() as $erro)
+            {{$erro}}
+            <br>
+        
+            
+        @endforeach
+    </div>
+
+@endif

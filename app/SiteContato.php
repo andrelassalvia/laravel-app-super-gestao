@@ -11,7 +11,7 @@ class SiteContato extends Model
     use SoftDeletes;
 
     // usar fillable para permitir gravacao usando o metodo create diretamente
-    protected $fillable = ['nome', 'telefone', 'email', 'motivo_contato', 'mensagem'];
+    protected $fillable = ['nome', 'telefone', 'email', 'motivo_contatos_id', 'mensagem'];
 
 
 }
