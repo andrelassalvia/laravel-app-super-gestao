@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
 class FornecedorController extends Controller
 {
     public function index(){
@@ -43,9 +44,11 @@ class FornecedorController extends Controller
 
         ];
 
-        
-        
         return view('app.fornecedor.index', compact('fornecedores'));
 
     }
+
+    // public function __construct(){
+    //     $this->middleware('log.acesso', 'autenticacao');
+    // }
 }

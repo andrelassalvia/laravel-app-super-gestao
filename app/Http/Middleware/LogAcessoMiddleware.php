@@ -29,6 +29,7 @@ class LogAcessoMiddleware
 
         //     'log'=> 'IP xyz requisitou a rota ABCD'
         // queremos a mensagem: IP xyz requisitou a rota ABCD;
-        return Response('Chegamos no e finalizamos o Middleware'); // Response é a volta da informação para o solicitante.
+        // return Response('Chegamos no e finalizamos o Middleware'); // Response é a volta da informação para o solicitante.
+        return $next($request);
     }
 }

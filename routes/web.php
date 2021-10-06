@@ -19,16 +19,11 @@ Route::get('/', function () {
 });
 */
 
-route::get('/','PrincipalController@principal')
-    ->name('site.index')
-    ->middleware(LogAcessoMiddleware::class);
+route::get('/','PrincipalController@principal')->name('site.index')->middleware('log.acesso');
 
-Route::get('/sobre-nos', 'SobrenosController@sobreNos')
-    ->name('site.sobrenos');
+Route::get('/sobre-nos', 'SobrenosController@sobreNos')->name('site.sobrenos');
 
-Route::get('/contato', 'ContatoController@contato')
-    ->name('site.contato')
-    ->middleware(LogAcessoMiddleware::class);
+Route::get('/contato', 'ContatoController@contato')->name('site.contato');
 
 Route::post('/contato', 'ContatoController@salvar')
     ->name('site.contato');
@@ -38,10 +33,12 @@ route::get('/login', function(){return 'login';})
 
 route::prefix('/app')->group(function(){
     route::get('/clientes', function(){return 'clientes';})
-        ->name('app.clientes');
+        ->name('app.clientes')
+        ->middleware('autenticacao');
         
     route::get('/fornecedor', 'FornecedorController@index')
-        ->name('app.fornecedor');
+        ->name('app.fornecedor')
+        ->middleware('log.acesso', 'autenticacao');
 
     route::get('/produtos', function(){return 'produtos';})
         ->name('app.produtos');

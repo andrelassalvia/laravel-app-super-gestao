@@ -84,6 +84,10 @@ class ContatoController extends Controller
         return redirect()->route('site.index');
         
     }
+
+    public function __construct(){
+        $this->middleware('log.acesso');
+    }
    
 }
 
