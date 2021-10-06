@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\LogAcessoMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,16 +19,32 @@ Route::get('/', function () {
 });
 */
 
-route::get('/','PrincipalController@principal')->name('site.index');
-Route::get('/sobre-nos', 'SobrenosController@sobreNos')->name('site.sobrenos');
-Route::get('/contato', 'ContatoController@contato')->name('site.contato');
-Route::post('/contato', 'ContatoController@salvar')->name('site.contato');
-route::get('/login', function(){return 'login';})->name('site.login');
+route::get('/','PrincipalController@principal')
+    ->name('site.index')
+    ->middleware(LogAcessoMiddleware::class);
+
+Route::get('/sobre-nos', 'SobrenosController@sobreNos')
+    ->name('site.sobrenos');
+
+Route::get('/contato', 'ContatoController@contato')
+    ->name('site.contato')
+    ->middleware(LogAcessoMiddleware::class);
+
+Route::post('/contato', 'ContatoController@salvar')
+    ->name('site.contato');
+
+route::get('/login', function(){return 'login';})
+    ->name('site.login');
 
 route::prefix('/app')->group(function(){
-    route::get('/clientes', function(){return 'clientes';})->name('app.clientes');
-    route::get('/fornecedor', 'FornecedorController@index')->name('app.fornecedor');
-    route::get('/produtos', function(){return 'produtos';})->name('app.produtos');
+    route::get('/clientes', function(){return 'clientes';})
+        ->name('app.clientes');
+        
+    route::get('/fornecedor', 'FornecedorController@index')
+        ->name('app.fornecedor');
+
+    route::get('/produtos', function(){return 'produtos';})
+        ->name('app.produtos');
 });
 
 route::get('/teste/{p1}/{p2}', 'TesteController@teste')->name('teste');
