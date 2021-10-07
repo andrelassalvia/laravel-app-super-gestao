@@ -19,7 +19,7 @@ Route::get('/', function () {
 });
 */
 
-route::get('/','PrincipalController@principal')->name('site.index')->middleware('log.acesso');
+route::get('/','PrincipalController@principal')->name('site.index');
 
 Route::get('/sobre-nos', 'SobrenosController@sobreNos')->name('site.sobrenos');
 
@@ -31,14 +31,14 @@ Route::post('/contato', 'ContatoController@salvar')
 route::get('/login', function(){return 'login';})
     ->name('site.login');
 
-route::prefix('/app')->group(function(){
+route::middleware('autenticacao:padrao, visitante')->prefix('/app')->group(function(){
     route::get('/clientes', function(){return 'clientes';})
-        ->name('app.clientes')
-        ->middleware('autenticacao');
+        ->name('app.clientes');
+        
         
     route::get('/fornecedor', 'FornecedorController@index')
-        ->name('app.fornecedor')
-        ->middleware('log.acesso', 'autenticacao');
+        ->name('app.fornecedor.index');
+        
 
     route::get('/produtos', function(){return 'produtos';})
         ->name('app.produtos');
