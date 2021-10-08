@@ -28,8 +28,9 @@ Route::get('/contato', 'ContatoController@contato')->name('site.contato');
 Route::post('/contato', 'ContatoController@salvar')
     ->name('site.contato');
 
-route::get('/login', function(){return 'login';})
-    ->name('site.login');
+route::get('/login', 'LoginController@index')->name('site.login');
+route::post('/login', 'LoginController@autenticar')->name('site.login');
+
 
 route::middleware('autenticacao:padrao, visitante')->prefix('/app')->group(function(){
     route::get('/clientes', function(){return 'clientes';})
