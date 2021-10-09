@@ -15,19 +15,14 @@ class AutenticacaoMiddleware
      */
     public function handle($request, Closure $next, $metodo_autenticacao, $perfil)
     {
-        if($metodo_autenticacao == 'padrao'){
-            echo "Exige metodo de autenticacao padrao"." -$perfil".'<br>';
-        } elseif ($metodo_autenticacao == 'ldap') {
-            echo 'Exige autenticacao ldap'. " -$perfil".'<br>';
-        }
-
-        if(false){
-            return $next($request);
-
-        } else{
-            
-            return Response('Acesso negado. Exige autenticacao!');
-        }
+       session_start();
+       
+       if(isset($_SESSION['email']) && $_SESSION['email'] != ''){
+        return $next($request);
+       }
+       else {
+           return redirect()->route('site.login', ['erro' => 2]);
+       }
 
 
         // return $next($request);

@@ -31,7 +31,7 @@ class LogAcessoMiddleware
         // queremos a mensagem: IP xyz requisitou a rota ABCD;
         // return Response('Chegamos no e finalizamos o Middleware'); // Response é a volta da informação para o solicitante.
         $resposta = $next($request); // estou recuperando a resposta e colocando na variavel
-        $resposta->setStatusCode('201', 'Manipulando o texto');
+        $resposta->setStatusCode('200', 'OK');
        
         return $resposta;
         

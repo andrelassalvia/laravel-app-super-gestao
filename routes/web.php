@@ -28,21 +28,23 @@ Route::get('/contato', 'ContatoController@contato')->name('site.contato');
 Route::post('/contato', 'ContatoController@salvar')
     ->name('site.contato');
 
-route::get('/login', 'LoginController@index')->name('site.login');
+route::get('/login/{erro?}', 'LoginController@index')->name('site.login');
 route::post('/login', 'LoginController@autenticar')->name('site.login');
 
 
 route::middleware('autenticacao:padrao, visitante')->prefix('/app')->group(function(){
-    route::get('/clientes', function(){return 'clientes';})
-        ->name('app.clientes');
+    route::get('/home', 'HomeController@index')->name('app.home');
+    route::get('/sair', 'LoginController@sair')->name('app.sair');
+    route::get('/cliente', function(){return 'clientes';})
+        ->name('app.cliente');
         
         
     route::get('/fornecedor', 'FornecedorController@index')
         ->name('app.fornecedor.index');
         
 
-    route::get('/produtos', function(){return 'produtos';})
-        ->name('app.produtos');
+    route::get('/produto', function(){return 'produtos';})
+        ->name('app.produto');
 });
 
 route::get('/teste/{p1}/{p2}', 'TesteController@teste')->name('teste');

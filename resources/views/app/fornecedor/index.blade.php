@@ -386,7 +386,7 @@ NESTAS SITUACAO O empty RETORNA TRUE --}}
 
     @forelse($fornecedores as $indice => $fornecedor)
 
-        @dd($loop) {{--Para enxergarmos todos os atributos do objeto LOOP--}}
+       {{-- @dd($loop)--}} {{--Para enxergarmos todos os atributos do objeto LOOP--}}
         Iteração Atual {{$loop->iteration}} {{--Fornece a informação de qual iteração está sendo executada no momento--}}
         <br>
         Fornecedor: {{$fornecedor['nome'] ?? 'não informado'}}
