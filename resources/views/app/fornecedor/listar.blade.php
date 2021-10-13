@@ -34,13 +34,21 @@
                                 <th>{{$fornecedor->site}}</th>
                                 <th>{{$fornecedor->uf}}</th>
                                 <th>{{$fornecedor->email}}</th>
-                                <th>Excluir</th>
+                                <th><a href="{{route('app.fornecedor.excluir', $fornecedor->id)}}">Excluir</a></th>
                                 <th><a href="{{route('app.fornecedor.editar', $fornecedor->id)}}">Editar</a></th>
                             </tr>
                         @endforeach
                     </tbody>
-                
                 </table>
+                {{$fornecedores->appends($request)->links()}}
+                <br>
+                {{$fornecedores->count()}} - total de registros por pagina
+                <br>
+                {{$fornecedores->total()}} - total de registros
+                <br>
+                {{$fornecedores->firstItem()}} - número do primeiro registro da página
+                <br>
+                {{$fornecedores->lastItem()}} - numero do ultimo registro da pagina
             </div>
         </div>
     </div>

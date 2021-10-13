@@ -31,17 +31,23 @@ Route::post('/contato', 'ContatoController@salvar')
 route::get('/login/{erro?}', 'LoginController@index')->name('site.login');
 route::post('/login', 'LoginController@autenticar')->name('site.login');
 
-
+// grupo aplicativo
 route::middleware('autenticacao:padrao, visitante')->prefix('/app')->group(function(){
     route::get('/home', 'HomeController@index')->name('app.home');
     route::get('/sair', 'LoginController@sair')->name('app.sair');
     route::get('/cliente', 'ClienteController@index')->name('app.cliente');
+
+    // fornecedor
     route::get('/fornecedor', 'FornecedorController@index')->name('app.fornecedor');
     route::post('/fornecedor/listar', 'FornecedorController@listar')->name('app.fornecedor.listar');
+    route::get('/fornecedor/listar', 'FornecedorController@listar')->name('app.fornecedor.listar');
     route::get('/fornecedor/adicionar', 'FornecedorController@adicionar')->name('app.fornecedor.adicionar');
     route::post('/fornecedor/adicionar', 'FornecedorController@adicionar')->name('app.fornecedor.adicionar');
     route::get('/fornecedor/editar/{id}/{msg?}', 'FornecedorController@editar')->name('app.fornecedor.editar');
-    route::get('/produto', 'ProdutoController@index')->name('app.produto');
+    route::get('/fornecedor/excluir/{id}', 'FornecedorController@excluir')->name('app.fornecedor.excluir');
+
+    // produto
+    route::resource('produto', 'ProdutoController');
 });
 
 route::get('/teste/{p1}/{p2}', 'TesteController@teste')->name('teste');
