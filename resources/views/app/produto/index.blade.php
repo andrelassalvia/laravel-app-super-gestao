@@ -31,13 +31,19 @@
                     <tbody>
                         @foreach ($produtos as $produto)
                             <tr>
-                                <th>{{$produto->nome}}</th>
-                                <th>{{$produto->descricao}}</th>
-                                <th>{{$produto->peso}}</th>
-                                <th>{{$produto->unidade_id}}</th>
-                                <th><a href="{{route('produto.show', ['produto' => $produto->id])}}">Visualizar</a></th>
-                                <th><a href="">Excluir</a></th>
-                                <th><a href="">Editar</a></th>
+                                <td>{{$produto->nome}}</td>
+                                <td>{{$produto->descricao}}</td>
+                                <td>{{$produto->peso}}</td>
+                                <td>{{$produto->unidade_id}}</td>
+                                <td><a href="{{route('produto.show', ['produto' => $produto->id])}}">Visualizar</a></td>
+                                <td>
+                                <form id="form_{{$produto->id}}" method="post" action="{{route('produto.destroy', ['produto' => $produto->id])}}">
+                                    @method('DELETE')
+                                    @csrf
+                                <a href="#" onclick="document.getElementById('form_{{$produto->id}}').submit()">Excluir</a></td>
+                                <!-- <button type="submit">Excluir</button> -->
+                                </form>
+                                <td><a href="{{route('produto.edit', ['produto' => $produto->id])}}">Editar</a></td>
                             </tr>
                         @endforeach
                     </tbody>
