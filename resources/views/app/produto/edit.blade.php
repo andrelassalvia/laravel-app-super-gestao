@@ -1,3 +1,4 @@
+
 @extends('app.layouts.basico')
 
 @section('titulo', 'Produto')
@@ -17,36 +18,10 @@
         </div>
         <div class="informacao-pagina">
             <div style="width: 30%; margin-left: auto; margin-right: auto">
-               
-                <form action="{{route('produto.update', ['produto' => $produto->id])}}" method="post">
-                    
-                    @csrf
-                    @method('PUT')
-                    <input type="text" name="nome" placeholder='nome' value="{{$produto->nome ?? old('nome')}}" class="borda-preta">
-                        {{$errors->has('nome') ? $errors->first('nome') : ''}}
-
-                    <input type="text" name="descricao" placeholder='Descrição do produto' class="borda-preta" value="{{$produto->descricao ?? old('descricao')}}">
-                        {{$errors->has('descricao') ? $erros->first('descricao') : ''}}
-
-                    <input type="text" name="peso" class="borda-preta" placeholder='Peso' value="{{$produto->peso ?? old('peso')}}">
-                       {{$errors->has('peso') ? $errors->first('peso') : ''}}
-
-                    <select name="unidade_id">
-                                               
-                        <option> -- Selecione a Unidade de Medida --</option>
-                        @foreach ($unidades as $unidade)
-                            <option value="{{$unidade->id}}" {{ ($produto->unidade_id ?? old('unidade_id') == $unidade->id ? 'selected' : '' )}}>{{$unidade->descricao}}</option>
-                        @endforeach
-                    </select>  
-
-                   
-
-                    <button type="submit" class="borda-preta">Cadastrar</button>
-                </form>
-            </div>
+                @component('app.produto._components.form_create_edit', ['produto' => $produto, 'unidades' => $unidades])
+                @endcomponent
+           </div>
         </div>
     </div>
- 
 
- 
 @endsection

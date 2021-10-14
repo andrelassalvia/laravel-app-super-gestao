@@ -48,6 +48,8 @@ route::middleware('autenticacao:padrao, visitante')->prefix('/app')->group(funct
 
     // produto
     route::resource('produto', 'ProdutoController');
+    route::resource('produto-detalhe', 'ProdutoDetalheController');
+    
 });
 
 route::get('/teste/{p1}/{p2}', 'TesteController@teste')->name('teste');
