@@ -29,4 +29,8 @@ class Fornecedor extends Model
     // usar fillable para permitir gravacao usando o metodo create diretamente no tinker
     protected $fillable = ['nome', 'site', 'uf', 'email'];
 
+    public function produtos(){
+        return $this->hasMany('App\Produto', 'fornecedor_id', 'id');
+    }
+
 }
