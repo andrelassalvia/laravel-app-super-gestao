@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Produto;
 use App\ProdutoDetalhe;
 use App\Item;
+use App\Fornecedor;
 use Illuminate\Http\Request;
 use App\Unidade;
 
@@ -18,7 +19,10 @@ class ProdutoController extends Controller
     public function index(Request $request)
     {
         //
-        $produtos = Produto::with(['produtoDetalhe', 'fornecedor'])->paginate(10);
+        $produtos = Produto::with(['produtoDetalhe', 'fornecedor', 'unidade'])->paginate(10);
+        $fornecedores = Fornecedor::all();
+        $unidades = Unidade::all();
+        
 
         /*
         foreach ($produtos as $key => $produto) {
@@ -39,7 +43,7 @@ class ProdutoController extends Controller
         }
         */
         
-        return view('app.produto.index', ['produtos' => $produtos, 'request' => $request->all()]);
+        return view('app.produto.index', ['produtos' => $produtos, 'request' => $request->all(), 'fornecedores' => $fornecedores, 'unidades' => $unidades]);
     }
 
     /**
@@ -51,7 +55,8 @@ class ProdutoController extends Controller
     {
         //
         $unidades = Unidade::all();
-        return view ('app.produto.create', ['unidades' => $unidades]);
+        $fornecedores = Fornecedor::all();
+        return view ('app.produto.create', ['unidades' => $unidades, 'fornecedores' => $fornecedores]);
     }
 
     /**
@@ -67,7 +72,8 @@ class ProdutoController extends Controller
             'nome' => 'required|min:2|max:50',
             'descricao' => 'required|min:2|max:100',
             'peso' => 'required|integer',
-            'unidade_id' => 'exists:unidades,id'
+            'unidade_id' => 'exists:unidades,id',
+            'fornecedor_id' => 'exists:fornecedores,id'
         ];
         $feedback = [
             'required' => 'O campo :attribute deve ser preenchido',
@@ -75,7 +81,8 @@ class ProdutoController extends Controller
             'nome.max' => 'Numero maximo de caracteres deve ser 50',
             'descricao.max' => 'Numero maximo de caracteres deve ser 100',
             'peso.integer' => 'O peso deve ser um numero inteiro',
-            'unidade_id.exists' => 'A unidade de medida informada não está cadastrada.'
+            'unidade_id.exists' => 'A unidade de medida informada não está cadastrada.',
+            'fornecedor_id.exists' => 'O fornecedor informado não existe.'
         ];
         $request->validate($regras, $feedback);
 
@@ -105,8 +112,10 @@ class ProdutoController extends Controller
     public function edit(Produto $produto)
     {
         //
+        
         $unidades = Unidade::all();
-        return view('app.produto.edit', ['produto' => $produto, 'unidades' => $unidades]);
+        $fornecedores = Fornecedor::all();
+        return view('app.produto.edit', ['produto' => $produto, 'unidades' => $unidades, 'fornecedores' => $fornecedores]);
         // return view('app.produto.create', ['produto' => $produto, 'unidades' => $unidades]);
     }
 
@@ -123,8 +132,27 @@ class ProdutoController extends Controller
         // $request->all(); // payload - os dados atualizados que digitamos no formulario - metodo put
         // $produto;  // instancia do objeto no estado anterior - os dados que estao no BD
 
+        $regras = [
+            'nome' => 'required|min:2|max:50',
+            'descricao' => 'required|min:2|max:100',
+            'peso' => 'required|integer',
+            'unidade_id' => 'exists:unidades,id',
+            'fornecedor_id' => 'exists:fornecedores,id'
+        ];
+        $feedback = [
+            'required' => 'O campo :attribute deve ser preenchido',
+            'min' => 'Numero mínimo de caracteres deve ser 2',
+            'nome.max' => 'Numero maximo de caracteres deve ser 50',
+            'descricao.max' => 'Numero maximo de caracteres deve ser 100',
+            'peso.integer' => 'O peso deve ser um numero inteiro',
+            'unidade_id.exists' => 'A unidade de medida informada não está cadastrada.',
+            'fornecedor_id.exists' => 'O fornecedor informado não existe.'
+        ];
+        
+        $request->validate($regras, $feedback);
         $produto->update($request->all());
-        return redirect(route('produto.show', ['produto' => $produto->id]));
+        $fornecedores = Fornecedor::all();
+        return redirect(route('produto.show', ['produto' => $produto->id, 'fornecedores' => $fornecedores]));
     }
 
     /**

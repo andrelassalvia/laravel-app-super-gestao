@@ -12,13 +12,22 @@
     @csrf
 @endif
 
-
+    
         <input type="text" name="nome" placeholder='nome' value="{{$produto->nome ?? old('nome')}}" class="borda-preta">
             {{$errors->has('nome') ? $errors->first('nome') : ''}}   
 
         <input type="text" name="descricao" placeholder='Descrição do produto' class="borda-preta" value="{{$produto->descricao ?? old('descricao')}}">
             {{$errors->has('descricao') ? $errors->first('descricao') : ''}}
 
+        <select name="fornecedor_id">
+            <option>-- Escolha o Fornecedor --</option>
+            @foreach ($fornecedores as $fornecedor)
+                <option value="{{$fornecedor->id}}" {{($produto->fornecedor_id ?? old('fornecedor_id') == $fornecedor->id ? 'selected' : '')}}>{{$fornecedor->nome}}</option>
+               
+            @endforeach
+        </select>
+        {{$errors->has('fornecedor_id') ? $errors->first('fornecedor_id') : ''}}
+       
         <input type="text" name="peso" class="borda-preta" placeholder='Peso' value="{{$produto->peso ?? old('peso')}}">
             {{$errors->has('peso') ? $errors->first('peso') : ''}}
 
@@ -29,6 +38,7 @@
              @endforeach
         </select>  
             {{$errors->has('unidade_id') ? $errors->first('unidade_id') : ''}}
+            
 
         <button type="submit" class="borda-preta">Cadastrar</button>
     </form>

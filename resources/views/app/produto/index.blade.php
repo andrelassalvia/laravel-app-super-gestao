@@ -35,14 +35,15 @@
                         </tr>
                     </thead>
                     <tbody>
+                    
                         @foreach ($produtos as $produto)
                             <tr>
                                 <td>{{$produto->nome}}</td>
                                 <td>{{$produto->descricao}}</td>
-                                <td>{{$produto->fornecedor->nome}}</td>
-                                <td>{{$produto->fornecedor->site}}</td>
+                                <td>{{$produto->fornecedor->nome ?? ''}}</td>
+                                <td>{{$produto->fornecedor->site ?? ''}}</td>
                                 <td>{{$produto->peso}}</td>
-                                <td>{{$produto->unidade_id}}</td>
+                                <td>{{$produto->unidade->unidade}}</td>
                                 <td>{{$produto->produtoDetalhe->comprimento ?? ''}}</td>
                                 <td>{{$produto->produtoDetalhe->altura ?? ''}}</td>
                                 <td>{{$produto->produtoDetalhe->largura ?? ''}}</td>
@@ -54,11 +55,12 @@
                                 <a href="#" onclick="document.getElementById('form_{{$produto->id}}').submit()">Excluir</a></td>
                                 <!-- <button type="submit">Excluir</button> -->
                                 </form>
-                                <td><a href="{{route('produto.edit', ['produto' => $produto->id])}}">Editar</a></td>
+                                <td><a href="{{route('produto.edit', ['produto' => $produto->id, 'fornecedores' => $fornecedores])}}">Editar</a></td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+               
                 {{$produtos->appends($request)->links()}}
                 <br>
                 {{$produtos->count()}} - total de registros por pagina
