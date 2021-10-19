@@ -52,10 +52,13 @@ route::middleware('autenticacao:padrao, visitante')->prefix('/app')->group(funct
     route::resource('pedido', 'PedidoController');
     route::get('/pedido-produto/create/{pedido}', 'PedidoProdutoController@create')->name('pedido_produto.create');
     route::post('/pedido-produto/create/{pedido}', 'PedidoProdutoController@store')->name('pedido_produto.store');
+    // route::delete('/pedido-produto/destroy/{pedido}{produto}', 'PedidoProdutoController@destroy')->name('pedido_produto.destroy');
+    route::delete('/pedido-produto/destroy/{pedidoProduto}', 'PedidoProdutoController@destroy')->name('pedido_produto.destroy');
+
     
 });
 
-route::get('/teste/{p1}/{p2}', 'TesteController@teste')->name('teste');
+
 
 // route::get('/rota1',function(){
 //     echo 'rota1';

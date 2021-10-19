@@ -14,6 +14,7 @@
                 <li><a href="">Consulta</a></li>
             </ul>
         </div>
+        <br>
         <div class="informacao-pagina">
             <div style="width: 90%; margin-left: auto; margin-right: auto">
                 <table border="1" width="100%">
@@ -56,6 +57,13 @@
                                 <!-- <button type="submit">Excluir</button> -->
                                 </form>
                                 <td><a href="{{route('produto.edit', ['produto' => $produto->id, 'fornecedores' => $fornecedores])}}">Editar</a></td>
+                            </tr>
+                            <tr>
+                                <td colspan="12" style="text-align:left; font-weight:bold">
+                                    @foreach ($produto->pedidos as $ped )
+                                        <a href="{{ route('pedido_produto.create', ['pedido' => $ped->id]) }}">Pedido: {{$ped->id}},</a>
+                                    @endforeach
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

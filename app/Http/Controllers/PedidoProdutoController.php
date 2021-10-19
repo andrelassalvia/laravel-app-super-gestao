@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Pedido;
 use App\Produto;
 use App\PedidoProduto;
+use App\Cliente;
 
 class PedidoProdutoController extends Controller
 {
@@ -28,8 +29,10 @@ class PedidoProdutoController extends Controller
     {
         //
         $pedido->produtos; // eager loading
+        $pedido->cliente;
+        $clientes = Cliente::all();
         $produtos = Produto::all();
-        return view('app.pedido_produto.create', ['pedido' => $pedido, 'produtos' => $produtos]) ;
+        return view('app.pedido_produto.create', ['pedido' => $pedido, 'produtos' => $produtos, 'clientes' => $clientes]) ;
     }
 
     /**
@@ -41,20 +44,44 @@ class PedidoProdutoController extends Controller
     public function store(Request $request, Pedido $pedido)
     {
         $regras = [
-            'produto_id' => 'exists:produtos,id'
+            'produto_id' => 'exists:produtos,id',
+            'quantidade' => 'required'
         ];
 
         $feedback = [
-            'produto_id.exists' => 'O campo produto é obrigatório'
+            'produto_id.exists' => 'O campo produto é obrigatório',
+            'required' => 'O campo :attribute é obrigatório.'
         ];
 
         $request->validate($regras, $feedback);
 
+       
+
+        /*
         $pedido_produto = new PedidoProduto();
         $pedido_produto->produto_id = $request->get('produto_id');
         $pedido_produto->pedido_id = $pedido->id;
+        $pedido_produto->quantidade = $request->get('quantidade');
         $pedido_produto->save();
+        */
+
+        $pedido->produtos()->attach(
+            $request->get('produto_id'),
+            [
+                'quantidade' => $request->get('quantidade')
+            ]
+        );
+        /*
+        $pedido->produtos()->attach(
+            [
+                $request->get('produto_id') => ['quantidade' => $request->get('quantidade')],
+                $request->get('produto_id') => ['quantidade' => $request->get('quantidade')],
+                $request->get('produto_id') => ['quantidade' => $request->get('quantidade')],
+            ]
+        );
+        */
         return redirect()->route('pedido_produto.create', ['pedido' => $pedido->id]);
+        
 
         // echo '<pre>';
         // print_r($pedido->id);
@@ -105,8 +132,27 @@ class PedidoProdutoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(PedidoProduto $pedidoProduto)
     {
         //
+        // print_r($pedido->getAttributes());
+        // echo '<hr>';
+        // print_r($produto->getAttributes());
+
+        // METODO CONVENCIONAL
+        /*
+        PedidoProduto::where(
+            [
+                'pedido_id'=>$pedido->id,
+                'produto_id' => $produto->id
+            ]
+        )->delete();
+        */
+        // METODO DETACHED
+        // $pedido->produtos()->detach($produto->id);
+        // $produto->pedidos()->detach($pedido->id);
+        $pedidoProduto->delete();
+
+        return redirect()->route('pedido_produto.create', ['pedido' => $pedidoProduto->pedido_id]);
     }
 }

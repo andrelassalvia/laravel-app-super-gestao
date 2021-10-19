@@ -8,6 +8,7 @@ use App\Item;
 use App\Fornecedor;
 use Illuminate\Http\Request;
 use App\Unidade;
+use App\Pedido;
 
 class ProdutoController extends Controller
 {
@@ -19,7 +20,7 @@ class ProdutoController extends Controller
     public function index(Request $request)
     {
         //
-        $produtos = Produto::with(['produtoDetalhe', 'fornecedor', 'unidade'])->paginate(10);
+        $produtos = Produto::with(['produtoDetalhe', 'fornecedor', 'unidade', 'pedidos'])->paginate(10);
         $fornecedores = Fornecedor::all();
         $unidades = Unidade::all();
         
