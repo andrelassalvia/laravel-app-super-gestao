@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Pedido;
+use App\Produto;
+use App\PedidoProduto;
 
 class PedidoProdutoController extends Controller
 {
@@ -21,9 +24,12 @@ class PedidoProdutoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Pedido $pedido)
     {
         //
+        $pedido->produtos; // eager loading
+        $produtos = Produto::all();
+        return view('app.pedido_produto.create', ['pedido' => $pedido, 'produtos' => $produtos]) ;
     }
 
     /**
@@ -32,9 +38,31 @@ class PedidoProdutoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Pedido $pedido)
     {
-        //
+        $regras = [
+            'produto_id' => 'exists:produtos,id'
+        ];
+
+        $feedback = [
+            'produto_id.exists' => 'O campo produto é obrigatório'
+        ];
+
+        $request->validate($regras, $feedback);
+
+        $pedido_produto = new PedidoProduto();
+        $pedido_produto->produto_id = $request->get('produto_id');
+        $pedido_produto->pedido_id = $pedido->id;
+        $pedido_produto->save();
+        return redirect()->route('pedido_produto.create', ['pedido' => $pedido->id]);
+
+        // echo '<pre>';
+        // print_r($pedido->id);
+        // '</pre>';
+        // '<hr>';
+        // echo '<pre>';
+        // print_r($request->produto_id);
+        // '</pre>';
     }
 
     /**
